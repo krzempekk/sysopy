@@ -4,11 +4,10 @@
 #include "library.h"
 #include <unistd.h>
 #include <sys/times.h>
-#include <dlfcn.h>
 #include <ctype.h>
 #include <time.h>
+#include <dlfcn.h>
 
-typedef void *(*arbitrary)();
 
 double time_difference(clock_t t1, clock_t t2){
     return ((double)(t2 - t1) / CLOCKS_PER_SEC);
@@ -33,7 +32,19 @@ int main(int argc, char** argv) {
     }
 
     struct main_arr* (*dl_create_arr)(int);
-    *(void **)(&dl_create_arr) = dlsym(dl_handle, "create_arr");
+    dl_create_arr = (struct main_arr* (*)(int))dlsym(dl_handle, "create_arr");
+
+    FILE* (*dl_compare_files)(char*, char*);
+    dl_compare_files = (FILE* (*)(char*, char*))dlsym(dl_handle, "compare_files");
+
+    int (*dl_save_comparision_to_block)(struct main_arr*, FILE*);
+    dl_save_comparision_to_block = (int (*)(struct main_arr*, FILE*))dlsym(dl_handle, "save_comparision_to_block");
+
+    void (*dl_remove_operation)(struct main_arr*, int, int);
+    dl_remove_operation = (void (*)(struct main_arr*, int, int))dlsym(dl_handle, "remove_operation");
+
+    void (*dl_remove_block)(struct main_arr*, int);
+    dl_remove_block = (void (*)(struct main_arr*, int))dlsym(dl_handle, "remove_block");
 
     struct main_arr* m_arr;
 
@@ -42,34 +53,34 @@ int main(int argc, char** argv) {
 
     m_arr = dl_create_arr(atoi(argv[1]));
 
-//    time_before = times(tms_before);
-//    for(int i = 2; i < argc; ) {
-//
-//        if (strcmp(argv[i], "compare_pairs") == 0) {
-//            i++;
-//            while(i < argc && strchr(argv[i], ':') != NULL) {
-//                char* file1 = strtok(argv[i], ":");
-//                char* file2 = strtok(NULL, ":");
-//                FILE* tmp_file = compare_files(file1, file2);
-//                save_comparision_to_block(m_arr, tmp_file);
-//                i++;
-//            }
-//        } else if (strcmp(argv[i], "remove_block") == 0) {
-//            int block_index = atoi(argv[i + 1]);
-//            remove_block(m_arr, block_index);
-//            i += 2;
-//        } else if (strcmp(argv[i], "remove_operation") == 0) {
-//            int block_index = atoi(argv[i + 1]), operation_index = atoi(argv[i + 2]);
-//            remove_operation(m_arr, block_index, operation_index);
-//            i += 3;
-//        } else {
-//            printf("Error, bad argument\n");
-//            return 1;
-//        }
-//
-//    }
-//    time_after = times(tms_after);
-//    write_result(time_before, time_after, tms_before, tms_after);
+    time_before = times(tms_before);
+    for(int i = 2; i < argc; ) {
+
+        if (strcmp(argv[i], "compare_pairs") == 0) {
+            i++;
+            while(i < argc && strchr(argv[i], ':') != NULL) {
+                char* file1 = strtok(argv[i], ":");
+                char* file2 = strtok(NULL, ":");
+                FILE* tmp_file = dl_compare_files(file1, file2);
+                dl_save_comparision_to_block(m_arr, tmp_file);
+                i++;
+            }
+        } else if (strcmp(argv[i], "remove_block") == 0) {
+            int block_index = atoi(argv[i + 1]);
+            dl_remove_block(m_arr, block_index);
+            i += 2;
+        } else if (strcmp(argv[i], "remove_operation") == 0) {
+            int block_index = atoi(argv[i + 1]), operation_index = atoi(argv[i + 2]);
+            dl_remove_operation(m_arr, block_index, operation_index);
+            i += 3;
+        } else {
+            printf("Error, bad argument\n");
+            return 1;
+        }
+
+    }
+    time_after = times(tms_after);
+    write_result(time_before, time_after, tms_before, tms_after);
 
     dlclose(dl_handle);
     return 0;

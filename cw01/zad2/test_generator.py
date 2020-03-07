@@ -2,7 +2,7 @@ import random
 import string
 
 file_counts = [5, 50, 100]
-directories = ["files/small_diff/", "files/medium_diff", "files/big_diff/"]
+directories = ["files/small_diff/", "files/medium_diff/", "files/big_diff/"]
 
 f = open("commands.txt", "w")
 for file_count in file_counts:
