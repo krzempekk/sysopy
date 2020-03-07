@@ -2,6 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include "library.h"
+#include <unistd.h>
+#include <sys/times.h>
+#include <dlfcn.h>
+#include <ctype.h>
+#include <time.h>
+
+double time_difference(clock_t t1, clock_t t2){
+    return ((double)(t2 - t1) / CLOCKS_PER_SEC);
+}
+
+void write_result(clock_t start, clock_t end, struct tms* t_start, struct tms* t_end){
+    printf("\tREAL_TIME: %f\n", time_difference(start,end));
+    printf("\tUSER_TIME: %f\n", time_difference(t_start->tms_utime, t_end->tms_utime));
+    printf("\tSYSTEM_TIME: %f\n", time_difference(t_start->tms_stime, t_end->tms_stime));
+}
 
 int main(int argc, char** argv) {
     struct main_arr* m_arr;
@@ -11,15 +26,21 @@ int main(int argc, char** argv) {
         return 0;
     }
 
+    struct tms* tms_before = malloc(sizeof(struct tms*)), *tms_after = malloc(sizeof(struct tms*));
+    clock_t time_before = 0, time_after = 0;
+
     m_arr = create_arr(atoi(argv[1]));
 
+    time_before = times(tms_before);
     for(int i = 2; i < argc; ) {
+
         if (strcmp(argv[i], "compare_pairs") == 0) {
             i++;
             while(i < argc && strchr(argv[i], ':') != NULL) {
                 char* file1 = strtok(argv[i], ":");
                 char* file2 = strtok(NULL, ":");
-                compare_files(m_arr, file1, file2);
+                FILE* tmp_file = compare_files(file1, file2);
+                save_comparision_to_block(m_arr, tmp_file);
                 i++;
             }
         } else if (strcmp(argv[i], "remove_block") == 0) {
@@ -34,7 +55,10 @@ int main(int argc, char** argv) {
             printf("Error, bad argument\n");
             return 1;
         }
+
     }
+    time_after = times(tms_after);
+    write_result(time_before, time_after, tms_before, tms_after);
 
     return 0;
 }

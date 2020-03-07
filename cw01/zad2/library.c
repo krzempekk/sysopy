@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int MAX_OPS = 100;
-const int MAX_CHARS_PER_OP = 1000;
+const int MAX_OPS = 100000;
+const int MAX_CHARS_PER_OP = 1000000;
 
 struct main_arr* create_arr(int blocks_count) {
     struct main_arr* tmp = malloc(sizeof(struct main_arr));
