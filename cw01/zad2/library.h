@@ -28,4 +28,6 @@ void remove_operation(struct main_arr* arr, int block_index, int op_index);
 
 void remove_block(struct main_arr* arr, int block_index);
 
+void remove_all_blocks(struct main_arr* arr);
+
 #endif //ZAD1_LIBRARY_H

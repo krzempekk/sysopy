@@ -76,9 +76,18 @@ void remove_block(struct main_arr* arr, int block_index) {
     for(int i = 0; i < arr->blocks[block_index]->index; i++) {
         free(arr->blocks[block_index]->operations[i]);
     }
+    free(arr->blocks[block_index]->operations);
     free(arr->blocks[block_index]);
     for(int i = block_index; i < arr->index - 1; i++) {
         arr->blocks[i] = arr->blocks[i + 1];
     }
     arr->index--;
+}
+
+void remove_all_blocks(struct main_arr* arr) {
+    for(int i = 0; i < arr->index; i++) {
+        remove_block(arr, i);
+    }
+    free(arr->blocks);
+    free(arr);
 }
