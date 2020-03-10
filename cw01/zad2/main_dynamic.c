@@ -10,7 +10,7 @@
 
 
 double time_difference(clock_t t1, clock_t t2){
-    return ((double)(t2 - t1) / CLOCKS_PER_SEC);
+    return ((double)(t2 - t1) / sysconf(_SC_CLK_TCK));
 }
 
 void write_result(clock_t start, clock_t end, struct tms* t_start, struct tms* t_end){
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 
     struct main_arr* m_arr;
 
-    struct tms* tms_before = malloc(sizeof(struct tms*)), *tms_after = malloc(sizeof(struct tms*));
+    struct tms* tms_before = malloc(sizeof(struct tms)), *tms_after = malloc(sizeof(struct tms));
     clock_t time_before = 0, time_after = 0;
 
     m_arr = dl_create_arr(atoi(argv[1]));
