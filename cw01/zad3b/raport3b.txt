@@ -1,0 +1,1094 @@
+Otrzymane wyniki nie wykazują jednoznacznej tendencji do przyspieszenia bądź zwolnienia czasu wykonywania operacji. Na podstawie tego wnioskuję że flagi optymalizacji nie są uniwersalnym środkiem do usprawnienia działania programu.
+
+--------------- Kompilacja z flagą -O1 ---------------
+------------ Biblioteki statyczne ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.050000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.240000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.340000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.070000
+--- usuwanie blokow ---
+	REAL_TIME: 0.440000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.760000
+	USER_TIME: 0.150000
+	SYSTEM_TIME: 0.030000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.840000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.050000
+--- usuwanie blokow ---
+	REAL_TIME: 2.140000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.600000
+	USER_TIME: 0.270000
+	SYSTEM_TIME: 0.090000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.030000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.540000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.160000
+--- usuwanie blokow ---
+	REAL_TIME: 0.570000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.150000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.850000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.010000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.700000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.200000
+--- usuwanie blokow ---
+	REAL_TIME: 0.740000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.190000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.720000
+	USER_TIME: 0.160000
+	SYSTEM_TIME: 0.020000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.090000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.410000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- usuwanie blokow ---
+	REAL_TIME: 0.530000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.910000
+	USER_TIME: 0.230000
+	SYSTEM_TIME: 0.050000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.010000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- usuwanie blokow ---
+	REAL_TIME: 2.330000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 6.100000
+	USER_TIME: 0.460000
+	SYSTEM_TIME: 0.100000
+------------ Biblioteki wspoldzielone ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.240000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.340000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 0.460000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 3.230000
+	USER_TIME: 0.140000
+	SYSTEM_TIME: 0.050000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.880000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 2.180000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.610000
+	USER_TIME: 0.280000
+	SYSTEM_TIME: 0.080000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.010000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.030000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.560000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.150000
+--- usuwanie blokow ---
+	REAL_TIME: 0.580000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.150000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.840000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.010000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.700000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.190000
+--- usuwanie blokow ---
+	REAL_TIME: 0.770000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.200000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.710000
+	USER_TIME: 0.160000
+	SYSTEM_TIME: 0.030000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.260000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.420000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- usuwanie blokow ---
+	REAL_TIME: 0.530000
+	USER_TIME: 0.060000
+	SYSTEM_TIME: 0.080000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.980000
+	USER_TIME: 0.240000
+	SYSTEM_TIME: 0.040000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.020000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 2.320000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.910000
+	USER_TIME: 0.450000
+	SYSTEM_TIME: 0.120000
+------------ Biblioteki dynamiczne ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.050000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.020000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.030000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.230000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.170000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.330000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.180000
+--- usuwanie blokow ---
+	REAL_TIME: 0.470000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.250000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.770000
+	USER_TIME: 0.780000
+	SYSTEM_TIME: 1.790000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.880000
+	USER_TIME: 0.570000
+	SYSTEM_TIME: 1.180000
+--- usuwanie blokow ---
+	REAL_TIME: 2.170000
+	USER_TIME: 0.580000
+	SYSTEM_TIME: 1.440000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.570000
+	USER_TIME: 1.650000
+	SYSTEM_TIME: 3.540000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.030000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.050000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.530000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.250000
+--- usuwanie blokow ---
+	REAL_TIME: 0.590000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.290000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.850000
+	USER_TIME: 0.220000
+	SYSTEM_TIME: 0.520000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.680000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.380000
+--- usuwanie blokow ---
+	REAL_TIME: 0.780000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.430000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.700000
+	USER_TIME: 0.510000
+	SYSTEM_TIME: 1.000000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.020000
+--- usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.020000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.140000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.420000
+	USER_TIME: 0.060000
+	SYSTEM_TIME: 0.200000
+--- usuwanie blokow ---
+	REAL_TIME: 0.540000
+	USER_TIME: 0.110000
+	SYSTEM_TIME: 0.260000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.920000
+	USER_TIME: 0.800000
+	SYSTEM_TIME: 1.810000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.020000
+	USER_TIME: 0.560000
+	SYSTEM_TIME: 1.300000
+--- usuwanie blokow ---
+	REAL_TIME: 2.300000
+	USER_TIME: 0.620000
+	SYSTEM_TIME: 1.500000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.900000
+	USER_TIME: 1.700000
+	SYSTEM_TIME: 3.610000
+--------------- Kompilacja z flagą -O2 ---------------
+------------ Biblioteki statyczne ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.010000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.240000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.330000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 0.460000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.780000
+	USER_TIME: 0.150000
+	SYSTEM_TIME: 0.030000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.850000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.050000
+--- usuwanie blokow ---
+	REAL_TIME: 2.150000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.600000
+	USER_TIME: 0.270000
+	SYSTEM_TIME: 0.080000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.550000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.160000
+--- usuwanie blokow ---
+	REAL_TIME: 0.590000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.160000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.850000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.010000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.700000
+	USER_TIME: 0.100000
+	SYSTEM_TIME: 0.190000
+--- usuwanie blokow ---
+	REAL_TIME: 0.750000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.200000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.700000
+	USER_TIME: 0.160000
+	SYSTEM_TIME: 0.020000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.420000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.080000
+--- usuwanie blokow ---
+	REAL_TIME: 0.540000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.940000
+	USER_TIME: 0.240000
+	SYSTEM_TIME: 0.040000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.040000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.080000
+--- usuwanie blokow ---
+	REAL_TIME: 2.310000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.930000
+	USER_TIME: 0.460000
+	SYSTEM_TIME: 0.100000
+------------ Biblioteki wspoldzielone ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.050000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.010000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.230000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.320000
+	USER_TIME: 0.060000
+	SYSTEM_TIME: 0.040000
+--- usuwanie blokow ---
+	REAL_TIME: 0.450000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.050000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.780000
+	USER_TIME: 0.150000
+	SYSTEM_TIME: 0.020000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.850000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 2.150000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.580000
+	USER_TIME: 0.260000
+	SYSTEM_TIME: 0.110000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.030000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.560000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.170000
+--- usuwanie blokow ---
+	REAL_TIME: 0.590000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.160000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.840000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.010000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.690000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.180000
+--- usuwanie blokow ---
+	REAL_TIME: 0.750000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.190000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.720000
+	USER_TIME: 0.170000
+	SYSTEM_TIME: 0.020000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.020000
+--- usuwanie blokow ---
+	REAL_TIME: 0.090000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.400000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.050000
+--- usuwanie blokow ---
+	REAL_TIME: 0.540000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.930000
+	USER_TIME: 0.230000
+	SYSTEM_TIME: 0.050000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.010000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 2.550000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.910000
+	USER_TIME: 0.460000
+	SYSTEM_TIME: 0.100000
+------------ Biblioteki dynamiczne ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.050000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.010000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.030000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.230000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.160000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.340000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.180000
+--- usuwanie blokow ---
+	REAL_TIME: 0.450000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.280000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.770000
+	USER_TIME: 0.830000
+	SYSTEM_TIME: 1.720000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.860000
+	USER_TIME: 0.460000
+	SYSTEM_TIME: 1.280000
+--- usuwanie blokow ---
+	REAL_TIME: 2.160000
+	USER_TIME: 0.520000
+	SYSTEM_TIME: 1.490000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.560000
+	USER_TIME: 1.630000
+	SYSTEM_TIME: 3.540000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.010000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.030000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.550000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.250000
+--- usuwanie blokow ---
+	REAL_TIME: 0.600000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.310000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.840000
+	USER_TIME: 0.240000
+	SYSTEM_TIME: 0.500000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.670000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.350000
+--- usuwanie blokow ---
+	REAL_TIME: 0.780000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.440000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.710000
+	USER_TIME: 0.470000
+	SYSTEM_TIME: 1.050000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.010000
+--- usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.030000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.260000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.170000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.430000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.180000
+--- usuwanie blokow ---
+	REAL_TIME: 0.550000
+	USER_TIME: 0.130000
+	SYSTEM_TIME: 0.250000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.920000
+	USER_TIME: 0.850000
+	SYSTEM_TIME: 1.780000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.040000
+	USER_TIME: 0.540000
+	SYSTEM_TIME: 1.330000
+--- usuwanie blokow ---
+	REAL_TIME: 2.400000
+	USER_TIME: 0.600000
+	SYSTEM_TIME: 1.540000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 6.000000
+	USER_TIME: 1.790000
+	SYSTEM_TIME: 3.630000
+--------------- Kompilacja z flagą -O3 ---------------
+------------ Biblioteki statyczne ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.050000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.360000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.070000
+--- usuwanie blokow ---
+	REAL_TIME: 0.450000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.080000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.830000
+	USER_TIME: 0.150000
+	SYSTEM_TIME: 0.030000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.860000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 2.160000
+	USER_TIME: 0.060000
+	SYSTEM_TIME: 0.050000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.660000
+	USER_TIME: 0.300000
+	SYSTEM_TIME: 0.070000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.010000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.030000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.570000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.170000
+--- usuwanie blokow ---
+	REAL_TIME: 0.600000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.170000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.850000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.010000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.700000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.210000
+--- usuwanie blokow ---
+	REAL_TIME: 0.760000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.200000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.710000
+	USER_TIME: 0.160000
+	SYSTEM_TIME: 0.030000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.010000
+--- usuwanie blokow ---
+	REAL_TIME: 0.090000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.420000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.050000
+--- usuwanie blokow ---
+	REAL_TIME: 0.550000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.970000
+	USER_TIME: 0.230000
+	SYSTEM_TIME: 0.060000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.030000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 2.330000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 6.010000
+	USER_TIME: 0.500000
+	SYSTEM_TIME: 0.080000
+------------ Biblioteki wspoldzielone ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.240000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.340000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 0.460000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.060000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.790000
+	USER_TIME: 0.150000
+	SYSTEM_TIME: 0.030000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.850000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.050000
+--- usuwanie blokow ---
+	REAL_TIME: 2.140000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.680000
+	USER_TIME: 0.270000
+	SYSTEM_TIME: 0.090000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.030000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.000000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.580000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.170000
+--- usuwanie blokow ---
+	REAL_TIME: 0.600000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.180000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.860000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.010000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.710000
+	USER_TIME: 0.090000
+	SYSTEM_TIME: 0.200000
+--- usuwanie blokow ---
+	REAL_TIME: 0.780000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.210000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.720000
+	USER_TIME: 0.160000
+	SYSTEM_TIME: 0.020000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.010000
+--- usuwanie blokow ---
+	REAL_TIME: 0.090000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.020000
+	SYSTEM_TIME: 0.000000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.420000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.060000
+--- usuwanie blokow ---
+	REAL_TIME: 0.540000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.070000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.950000
+	USER_TIME: 0.260000
+	SYSTEM_TIME: 0.030000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.020000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.080000
+--- usuwanie blokow ---
+	REAL_TIME: 2.330000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.080000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.980000
+	USER_TIME: 0.470000
+	SYSTEM_TIME: 0.100000
+------------ Biblioteki dynamiczne ------------
+--------- mala roznica (10% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.060000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.020000
+--- usuwanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.030000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.240000
+	USER_TIME: 0.060000
+	SYSTEM_TIME: 0.160000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.340000
+	USER_TIME: 0.060000
+	SYSTEM_TIME: 0.150000
+--- usuwanie blokow ---
+	REAL_TIME: 0.460000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.290000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.800000
+	USER_TIME: 0.860000
+	SYSTEM_TIME: 1.740000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 1.840000
+	USER_TIME: 0.450000
+	SYSTEM_TIME: 1.270000
+--- usuwanie blokow ---
+	REAL_TIME: 2.140000
+	USER_TIME: 0.550000
+	SYSTEM_TIME: 1.450000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 5.690000
+	USER_TIME: 1.630000
+	SYSTEM_TIME: 3.680000
+--------- srednia roznica (50% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.020000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.000000
+--- usuwanie blokow ---
+	REAL_TIME: 0.040000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.010000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.000000
+	SYSTEM_TIME: 0.050000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.590000
+	USER_TIME: 0.030000
+	SYSTEM_TIME: 0.300000
+--- usuwanie blokow ---
+	REAL_TIME: 0.610000
+	USER_TIME: 0.040000
+	SYSTEM_TIME: 0.310000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.850000
+	USER_TIME: 0.180000
+	SYSTEM_TIME: 0.570000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.700000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.360000
+--- usuwanie blokow ---
+	REAL_TIME: 0.790000
+	USER_TIME: 0.050000
+	SYSTEM_TIME: 0.420000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 1.720000
+	USER_TIME: 0.530000
+	SYSTEM_TIME: 0.990000
+--------- duza roznica (90% linii) ---------
+------ mala ilosc plikow (5) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.070000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.020000
+--- usuwanie blokow ---
+	REAL_TIME: 0.080000
+	USER_TIME: 0.010000
+	SYSTEM_TIME: 0.020000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 0.250000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.150000
+------ średnia ilosc plikow (50) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 0.430000
+	USER_TIME: 0.070000
+	SYSTEM_TIME: 0.190000
+--- usuwanie blokow ---
+	REAL_TIME: 0.550000
+	USER_TIME: 0.080000
+	SYSTEM_TIME: 0.300000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 2.970000
+	USER_TIME: 0.870000
+	SYSTEM_TIME: 1.790000
+------ duza ilosc plikow (100) ------
+--- zapisywanie blokow ---
+	REAL_TIME: 2.060000
+	USER_TIME: 0.520000
+	SYSTEM_TIME: 1.380000
+--- usuwanie blokow ---
+	REAL_TIME: 2.550000
+	USER_TIME: 0.600000
+	SYSTEM_TIME: 1.760000
+--- naprzemienne zapisywanie i usuwanie blokow ---
+	REAL_TIME: 6.660000
+	USER_TIME: 2.020000
+	SYSTEM_TIME: 4.030000

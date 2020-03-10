@@ -1,4 +1,4 @@
-CC=gcc
+CC=gcc -Wall
 
 all: static shared clean
 

@@ -1,5 +1,6 @@
+Biblioteki ładowane dynamicznie są w większości przypadków wolniejsze, natomiast biblioteki współdzielone okazały się najszybsze.
+
 ------------ Biblioteki statyczne ------------
-make[1]: Entering directory '/home/sans/studia/sysopy/cw01/zad2'
 --------- mala roznica (10% linii) ---------
 ------ mala ilosc plikow (5) ------
 --- zapisywanie blokow ---

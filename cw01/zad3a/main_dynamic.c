@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "library.h"
+#include "../zad2/library.h"
 #include <unistd.h>
 #include <sys/times.h>
 #include <ctype.h>
