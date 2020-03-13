@@ -1,0 +1,108 @@
+**** 20000 records with size of 1 byte ****
+copy using system functions
+	USER: 0.020000	SYSTEM: 0.070000
+copy using library functions
+	USER: 0.010000	SYSTEM: 0.040000
+sort using system functions
+	USER: 5.580000	SYSTEM: 4.900000
+sort using library functions
+	USER: 3.680000	SYSTEM: 1.800000
+**** 20000 records with size of 1 byte ****
+copy using system functions
+	USER: 0.030000	SYSTEM: 0.120000
+copy using library functions
+	USER: 0.040000	SYSTEM: 0.030000
+sort using system functions
+	USER: 12.210000	SYSTEM: 9.790000
+sort using library functions
+	USER: 7.120000	SYSTEM: 3.350000
+**** 50000 records with size of 4 bytes ****
+copy using system functions
+	USER: 0.060000	SYSTEM: 0.170000
+copy using library functions
+	USER: 0.060000	SYSTEM: 0.070000
+sort using system functions
+	USER: 2.100000	SYSTEM: 2.120000
+sort using library functions
+	USER: 2.380000	SYSTEM: 2.340000
+**** 100000 records with size of 4 bytes ****
+copy using system functions
+	USER: 0.110000	SYSTEM: 0.360000
+copy using library functions
+	USER: 0.110000	SYSTEM: 0.160000
+sort using system functions
+	USER: 4.130000	SYSTEM: 4.650000
+sort using library functions
+	USER: 4.830000	SYSTEM: 4.980000
+**** 50000 records with size of 512 bytes ****
+copy using system functions
+	USER: 0.070000	SYSTEM: 0.190000
+copy using library functions
+	USER: 0.080000	SYSTEM: 0.080000
+sort using system functions
+	USER: 2.040000	SYSTEM: 2.220000
+sort using library functions
+	USER: 2.630000	SYSTEM: 2.960000
+**** 100000 records with size of 512 bytes ****
+copy using system functions
+	USER: 0.170000	SYSTEM: 0.360000
+copy using library functions
+	USER: 0.120000	SYSTEM: 0.220000
+sort using system functions
+	USER: 4.550000	SYSTEM: 5.310000
+sort using library functions
+	USER: 6.420000	SYSTEM: 6.580000
+**** 50000 records with size of 1024 bytes ****
+copy using system functions
+	USER: 0.080000	SYSTEM: 0.210000
+copy using library functions
+	USER: 0.060000	SYSTEM: 0.140000
+sort using system functions
+	USER: 2.150000	SYSTEM: 2.800000
+sort using library functions
+	USER: 3.270000	SYSTEM: 3.820000
+**** 100000 records with size of 1024 bytes ****
+copy using system functions
+	USER: 0.210000	SYSTEM: 0.550000
+copy using library functions
+	USER: 0.180000	SYSTEM: 0.240000
+sort using system functions
+	USER: 4.650000	SYSTEM: 5.950000
+sort using library functions
+	USER: 7.330000	SYSTEM: 7.800000
+**** 50000 records with size of 4096 bytes ****
+copy using system functions
+	USER: 0.130000	SYSTEM: 0.420000
+copy using library functions
+	USER: 0.190000	SYSTEM: 0.340000
+sort using system functions
+	USER: 2.170000	SYSTEM: 3.330000
+sort using library functions
+	USER: 3.210000	SYSTEM: 4.660000
+**** 100000 records with size of 4096 bytes ****
+copy using system functions
+	USER: 0.260000	SYSTEM: 0.690000
+copy using library functions
+	USER: 0.400000	SYSTEM: 0.730000
+sort using system functions
+	USER: 4.950000	SYSTEM: 7.560000
+sort using library functions
+	USER: 7.350000	SYSTEM: 10.330000
+**** 50000 records with size of 8192 bytes ****
+copy using system functions
+	USER: 0.130000	SYSTEM: 1.300000
+copy using library functions
+	USER: 0.360000	SYSTEM: 1.490000
+sort using system functions
+	USER: 2.760000	SYSTEM: 5.920000
+sort using library functions
+	USER: 3.730000	SYSTEM: 6.800000
+**** 100000 records with size of 8192 bytes ****
+copy using system functions
+	USER: 0.240000	SYSTEM: 1.870000
+copy using library functions
+	USER: 0.630000	SYSTEM: 2.630000
+sort using system functions
+	USER: 5.770000	SYSTEM: 11.390000
+sort using library functions
+	USER: 7.870000	SYSTEM: 13.580000

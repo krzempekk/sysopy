@@ -5,6 +5,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <sys/times.h>
+
+double time_diff(clock_t t1, clock_t t2){
+    return ((double)(t2 - t1) / sysconf(_SC_CLK_TCK));
+}
+
+void write_result(struct tms* t_start, struct tms* t_end){
+    printf("\tUSER: %f\tSYSTEM: %f\n", time_diff(t_start->tms_utime, t_end->tms_utime), time_diff(t_start->tms_stime, t_end->tms_stime));
+}
 
 int random_int(int a, int b) {
     return rand() % (b - a + 1) + a;
@@ -161,9 +170,22 @@ void quicksort_lib(FILE* f, int rec_size, int left, int right) {
 int main(int argc, char** argv) {
     srand(time(0));
 
+    if(argc < 5) {
+        printf("Not enough arguments provided\n");
+        return 1;
+    }
+
     char* command = argv[1];
 
+    struct tms* tms_start = malloc(sizeof(struct tms));
+    struct tms* tms_end = malloc(sizeof(struct tms));
+
     if(strcmp(command, "generate") == 0) {
+        if(argc < 5) {
+            printf("Too few arguments\n");
+            return 1;
+        }
+
         char* file = argv[2];
         int rec_count = atoi(argv[3]), rec_size = atoi(argv[4]);
 
@@ -171,6 +193,13 @@ int main(int argc, char** argv) {
         write(fd, generate(rec_count, rec_size), rec_count * (rec_size + 1));
         close(fd);
     } else if(strcmp(command, "sort") == 0) {
+        if(argc < 6) {
+            printf("Too few arguments\n");
+            return 1;
+        }
+
+        times(tms_start);
+
         char* file = argv[2];
         int rec_count = atoi(argv[3]), rec_size = atoi(argv[4]);
         char* mode = argv[5];
@@ -178,12 +207,26 @@ int main(int argc, char** argv) {
         if(strcmp(mode, "sys") == 0) {
             int fd = open(file, O_RDWR);
             quicksort(fd, rec_size, 0, rec_count - 1);
+            close(fd);
         } else if(strcmp(mode, "lib") == 0) {
             FILE* f = fopen(file, "r+");
             quicksort_lib(f, rec_size, 0, rec_count - 1);
+            fclose(f);
+        } else {
+            printf("Unrecognized mode %s\n", mode);
+            return 1;
         }
 
+        times(tms_end);
+        write_result(tms_start, tms_end);
     } else if(strcmp(command, "copy") == 0) {
+        if(argc < 7) {
+            printf("Too few arguments\n");
+            return 1;
+        }
+
+        times(tms_start);
+
         char* file1 = argv[2];
         char* file2 = argv[3];
         int rec_count = atoi(argv[4]), rec_size = atoi(argv[5]);
@@ -196,6 +239,9 @@ int main(int argc, char** argv) {
                 buf = get_record(fd1, rec_size, i);
                 save_record(fd2, rec_size, i, buf);
             }
+
+            close(fd1);
+            close(fd2);
         } else if(strcmp(mode, "lib") == 0) {
             FILE* f1 = fopen(file1, "r+");
             FILE* f2 = fopen(file2, "w");
@@ -204,12 +250,21 @@ int main(int argc, char** argv) {
                 buf = get_record_lib(f1, rec_size, i);
                 save_record_lib(f2, rec_size, i, buf);
             }
+
+            fclose(f1);
+            fclose(f2);
+        } else {
+            printf("Unrecognized mode %s\n", mode);
+            return 1;
         }
         free(buf);
 
+        times(tms_end);
+        write_result(tms_start, tms_end);
     } else {
-        printf("Unrecognized command %s", command);
+        printf("Unrecognized command %s\n", command);
         return 1;
     }
+
     return 0;
 }

@@ -26,8 +26,8 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    struct tms* tms_before = malloc(sizeof(struct tms));
-    struct tms* tms_after = malloc(sizeof(struct tms));
+    struct tms* tms_before = calloc(1, sizeof(struct tms));
+    struct tms* tms_after = calloc(1, sizeof(struct tms));
     clock_t time_before = 0, time_after = 0;
 
     int arr_size = atoi(argv[1]);
