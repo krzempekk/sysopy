@@ -110,42 +110,50 @@ void switch_records_lib(FILE* f, int rec_size, int index_1, int index_2) {
 }
 
 int partition(int fd, int rec_size, int left, int right) {
-    char* pivot = get_record(fd, rec_size, right);
+    switch_records(fd, rec_size, left, right);
+    char* pivot;
+    char* el;
 
     int i = left - 1;
 
     for(int j = left; j < right; j++) {
-        char* el = get_record(fd, rec_size, j);
-        if(strcmp(el, pivot) < 0) {
+        el = get_record(fd, rec_size, j);
+        pivot = get_record(fd, rec_size, right);
+        int cmp = strcmp(el, pivot);
+        free(pivot);
+        free(el);
+        if(cmp < 0) {
             i++;
             switch_records(fd, rec_size, i, j);
         }
-        free(el);
     }
 
     switch_records(fd, rec_size, i + 1, right);
 
-    free(pivot);
     return i + 1;
 }
 
 int partition_lib(FILE* f, int rec_size, int left, int right) {
-    char* pivot = get_record_lib(f, rec_size, right);
+    switch_records_lib(f, rec_size, left, right);
+    char* pivot;
+    char* el;
 
     int i = left - 1;
 
     for(int j = left; j < right; j++) {
-        char* el = get_record_lib(f, rec_size, j);
-        if(strcmp(el, pivot) < 0) {
+        pivot = get_record_lib(f, rec_size, right);
+        el = get_record_lib(f, rec_size, j);
+        int cmp = strcmp(el, pivot);
+        free(pivot);
+        free(el);
+        if(cmp < 0) {
             i++;
             switch_records_lib(f, rec_size, i, j);
         }
-        free(el);
     }
 
     switch_records_lib(f, rec_size, i + 1, right);
 
-    free(pivot);
     return i + 1;
 }
 

@@ -1,3 +1,5 @@
+W znacznej wiekszosci przypadkow funkcje biblioteczne sa wolniejsze od systemowych. Funkcje biblioteczne sa natomiast prostsze i bardziej intuicyjne w uzyciu.
+
 **** 20000 records with size of 1 byte ****
 copy using system functions
 	USER: 0.020000	SYSTEM: 0.070000

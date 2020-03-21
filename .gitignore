@@ -5,6 +5,7 @@ cmake-build-debug/
 *.a
 *.o
 *.so
-cw01/files/
+files/
 KrzempekKamil/
 KrzempekKamil-cw01.tar.gz
+do_oddania/
