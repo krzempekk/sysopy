@@ -12,6 +12,8 @@
 #include <stdbool.h>
 #include <limits.h>
 #include <math.h>
+#include <sys/resource.h>
+#include <sys/time.h>
 
 typedef struct matrix {
     char* file;
@@ -182,6 +184,8 @@ int main(int argc, char** argv) {
     int proc_count = atoi(argv[2]);
     time_limit = strtod(argv[3], NULL);
     separate_write = (atoi(argv[4]) == 2);
+    int cpu_time_limit = atoi(argv[5]);
+    int virtual_mem_limit = atoi(argv[6]);
 
     pid_t* children_pids = calloc(proc_count, sizeof(pid_t));
 
@@ -254,6 +258,15 @@ int main(int argc, char** argv) {
     for(int i = 0; i < proc_count; i++) {
         pid_t child_pid = fork();
         if(child_pid == 0) {
+            struct rlimit* m_limit = (struct rlimit*)malloc(sizeof(struct rlimit));
+            m_limit->rlim_cur = virtual_mem_limit * (1 << 20);
+            m_limit->rlim_max = virtual_mem_limit * (1 << 20);
+            setrlimit(RLIMIT_AS, m_limit);
+            struct rlimit* t_limit = (struct rlimit*)malloc(sizeof(struct rlimit));
+            t_limit->rlim_cur = cpu_time_limit;
+            t_limit->rlim_max = cpu_time_limit;
+            setrlimit(RLIMIT_CPU, m_limit);
+
             int matrices_multiplied = multiply_matrices(i, proc_count, matrices_pair_count, clock());
             exit(matrices_multiplied);
         } else {
@@ -263,8 +276,10 @@ int main(int argc, char** argv) {
 
     for(int i = 0; i < proc_count; i++) {
         int status;
-        waitpid(children_pids[i], &status, 0);
+        struct rusage* usage = (struct rusage*)malloc(sizeof(struct rusage));
+        wait4(children_pids[i], &status, 0, usage);
         printf("Process %d done %d multiplying operations\n", children_pids[i], WEXITSTATUS(status));
+        printf("\tUser CPU time: %d microseconds\n\tSystem CPU time: %d microseconds\n\tMaximum resident set size: %d KB\n", usage->ru_utime.tv_usec, usage->ru_stime.tv_usec, usage->ru_maxrss);
     }
 
     if(separate_write) {
