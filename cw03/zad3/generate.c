@@ -61,5 +61,8 @@ int main(int argc, char** argv) {
         fclose(f_b);
     }
 
+    free(file_name);
+    fclose(tests_list);
+
     return 0;
 }

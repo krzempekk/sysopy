@@ -9,10 +9,10 @@ build: generate.c main.c test.c
 
 generate_tests: generate
 	mkdir tests
-	./generate 100 10 30
+	./generate 10 5 50
 
 run_tests: main
-	./main tests_list 5 1 2
+	./main tests_list 4 1 1
 
 check_tests: test
 	./test tests_list

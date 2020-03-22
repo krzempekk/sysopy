@@ -27,7 +27,7 @@ matrix** matrices_B;
 matrix** matrices_C;
 
 const int MAX_ABS_VAL = 100;
-const int MAX_PATH_LEN = 100000;
+const int MAX_LINE_LEN = 100000;
 const int MAX_INPUT_LINES = 100000;
 
 double time_limit;
@@ -45,9 +45,9 @@ int* get_column(matrix* m, FILE* f, int index) {
     rewind(f);
     int* column = (int*)calloc(m->height, sizeof(int));
     int i = 0;
-    char* row = (char*)calloc(MAX_PATH_LEN, sizeof(char));
+    char* row = (char*)calloc(MAX_LINE_LEN, sizeof(char));
     char* ptr = row;
-    while(fgets(row, MAX_PATH_LEN, f) != NULL) {
+    while(fgets(row, MAX_LINE_LEN, f) != NULL) {
         char* elem;
         for(int j = 0; j <= index; j++) {
             elem = strsep(&row, " \n");
@@ -61,9 +61,9 @@ int* get_column(matrix* m, FILE* f, int index) {
 int* get_row(matrix* m, FILE* f, int index) {
     rewind(f);
     int* row = (int*)calloc(m->width, sizeof(int));
-    char* buff = (char*)calloc(MAX_PATH_LEN, sizeof(char));
-    for(int i = 0; i < index; i++) fgets(buff, MAX_PATH_LEN, f);
-    buff = fgets(buff, MAX_PATH_LEN, f);
+    char* buff = (char*)calloc(MAX_LINE_LEN, sizeof(char));
+    for(int i = 0; i < index; i++) fgets(buff, MAX_LINE_LEN, f);
+    buff = fgets(buff, MAX_LINE_LEN, f);
 
     char* elem;
 
@@ -104,8 +104,8 @@ void write_column_separate(matrix* m, FILE* f, int* column, int index) {
 
 int matrix_width(FILE* f) {
     rewind(f);
-    char buffer[MAX_PATH_LEN];
-    fgets(buffer, MAX_PATH_LEN, f);
+    char buffer[MAX_LINE_LEN];
+    fgets(buffer, MAX_LINE_LEN, f);
     int i = 1;
     strtok(buffer, " \n");
     while(strtok(NULL, " \n") != NULL) i++;
@@ -114,9 +114,9 @@ int matrix_width(FILE* f) {
 
 int matrix_height(FILE* f) {
     rewind(f);
-    char buffer[MAX_PATH_LEN];
+    char buffer[MAX_LINE_LEN];
     int i = 0;
-    while(fgets(buffer, MAX_PATH_LEN, f) != NULL) i++;
+    while(fgets(buffer, MAX_LINE_LEN, f) != NULL) i++;
     return i;
 }
 
@@ -147,11 +147,12 @@ void multiply_matrix(int col_start, int col_end, int pair_in) {
         }
 
         if(separate_write) {
-            char* file_name = (char*)calloc(MAX_PATH_LEN, sizeof(char));
+            char* file_name = (char*)calloc(100, sizeof(char));
             strcpy(file_name, C->file);
             strcat(file_name, "_");
             sprintf(file_name + strlen(file_name), "%d", col_in);
             f_C = fopen(file_name, "w+");
+            free(file_name);
             write_column_separate(C, f_C, m_C_col, col_in);
         } else {
             write_column(C, f_C, m_C_col, col_in);
@@ -160,6 +161,9 @@ void multiply_matrix(int col_start, int col_end, int pair_in) {
         free(m_B_col);
         free(m_C_col);
     }
+    fclose(f_A);
+    fclose(f_B);
+    fclose(f_C);
 }
 
 int multiply_matrices(int proc_in, int proc_count, int matrices_pair_count, clock_t start_t) {
@@ -197,14 +201,14 @@ int main(int argc, char** argv) {
 
     int i = 0;
     FILE* tmp;
-    char buffer[MAX_PATH_LEN];
+    char buffer[100];
     while(fscanf(f, "%s", buffer) != EOF) {
         int in = i / 3;
         switch (i % 3) {
             case 0:
                 matrices_A[in] = malloc(sizeof(matrix));
                 tmp = fopen(buffer, "r");
-                matrices_A[in]->file = (char*)calloc(MAX_PATH_LEN, sizeof(char));
+                matrices_A[in]->file = (char*)calloc(100, sizeof(char));
                 strcpy(matrices_A[in]->file, buffer);
                 matrices_A[in]->width = matrix_width(tmp);
                 matrices_A[in]->height = matrix_height(tmp);
@@ -213,7 +217,7 @@ int main(int argc, char** argv) {
             case 1:
                 matrices_B[in] = malloc(sizeof(matrix));
                 tmp = fopen(buffer, "r");
-                matrices_B[in]->file = (char*)calloc(MAX_PATH_LEN, sizeof(char));
+                matrices_B[in]->file = (char*)calloc(100, sizeof(char));
                 strcpy(matrices_B[in]->file, buffer);
                 matrices_B[in]->width = matrix_width(tmp);
                 matrices_B[in]->height = matrix_height(tmp);
@@ -222,7 +226,7 @@ int main(int argc, char** argv) {
             case 2:
                 matrices_C[in] = malloc(sizeof(matrix));
                 tmp = fopen(buffer, "w+");
-                matrices_C[in]->file = (char*)calloc(MAX_PATH_LEN, sizeof(char));
+                matrices_C[in]->file = (char*)calloc(100, sizeof(char));
                 strcpy(matrices_C[in]->file, buffer);
                 matrices_C[in]->width = matrices_B[in]->width;
                 matrices_C[in]->height = matrices_A[in]->height;
@@ -249,8 +253,6 @@ int main(int argc, char** argv) {
         i++;
     }
 
-    printf("loading finished\n");
-
     int matrices_pair_count = i / 3;
 
     fclose(f);
@@ -266,6 +268,8 @@ int main(int argc, char** argv) {
             t_limit->rlim_cur = cpu_time_limit;
             t_limit->rlim_max = cpu_time_limit;
             setrlimit(RLIMIT_CPU, m_limit);
+            free(m_limit);
+            free(t_limit);
 
             int matrices_multiplied = multiply_matrices(i, proc_count, matrices_pair_count, clock());
             exit(matrices_multiplied);
@@ -279,8 +283,11 @@ int main(int argc, char** argv) {
         struct rusage* usage = (struct rusage*)malloc(sizeof(struct rusage));
         wait4(children_pids[i], &status, 0, usage);
         printf("Process %d done %d multiplying operations\n", children_pids[i], WEXITSTATUS(status));
-        printf("\tUser CPU time: %d microseconds\n\tSystem CPU time: %d microseconds\n\tMaximum resident set size: %d KB\n", usage->ru_utime.tv_usec, usage->ru_stime.tv_usec, usage->ru_maxrss);
+        printf("\tUser CPU time: %ld microseconds\n\tSystem CPU time: %ld microseconds\n\tMaximum resident set size: %ld KB\n", usage->ru_utime.tv_usec, usage->ru_stime.tv_usec, usage->ru_maxrss);
+        free(usage);
     }
+
+    free(children_pids);
 
     if(separate_write) {
         for(int i = 0; i < matrices_pair_count; i++) {
@@ -291,7 +298,7 @@ int main(int argc, char** argv) {
                 args[0] = (char*)calloc(6, sizeof(char));
                 strcpy(args[0], "paste");
                 for(int j = 0; j < matrices_C[i]->width; j++) {
-                    args[j + 1] = (char*)calloc(MAX_PATH_LEN, sizeof(char));
+                    args[j + 1] = (char*)calloc(100, sizeof(char));
                     strcpy(args[j + 1], matrices_C[i]->file);
                     strcat(args[j + 1], "_");
                     sprintf(args[j + 1] + strlen(args[j + 1]), "%d", j);
