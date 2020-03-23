@@ -10,6 +10,7 @@
 #include <dirent.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <sys/wait.h>
 #define __USE_XOPEN_EXTENDED 1
 #include <ftw.h>
 
