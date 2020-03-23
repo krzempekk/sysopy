@@ -143,10 +143,20 @@ void traverse_directory(char* dir_path, int depth) {
 }
 
 static int nftw_callback(const char* file_path, const struct stat* stats, int type_flag, struct FTW* ftw_buf) {
-    if(is_time_correct(stats) && (max_depth < 0 || ftw_buf->level <= max_depth)) {
-        print_file_info(file_path, stats);
+    if(type_flag == FTW_D) {
+        pid_t child_pid = fork();
+        if(child_pid == 0) {
+            execlp("ls", "ls", "-l", file_path, NULL);
+        } else {
+            printf("path: %s\n", file_path);
+            printf("process PID: %d\n", child_pid);
+            waitpid(child_pid, NULL, 0);
+        }
     }
-    return 0;
+    if(is_time_correct(stats) && (max_depth < 0 || ftw_buf->level <= max_depth)) {
+        return 0;
+    }
+    return 1;
 }
 
 

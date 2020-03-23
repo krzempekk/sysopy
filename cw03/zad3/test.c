@@ -73,6 +73,10 @@ bool matrices_equal(matrix* m_A, matrix* m_B) {
 }
 
 int main(int argc, char** argv) {
+    if(argc < 2) {
+        printf("Too few arguments\n");
+    }
+
     char* tests_list = argv[1];
     FILE* f = fopen(tests_list, "r");
     char file_name[1000];

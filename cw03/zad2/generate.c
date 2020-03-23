@@ -8,6 +8,10 @@ int random_int(int min, int max) {
 }
 
 int main(int argc, char** argv) {
+    if(argc < 4) {
+        printf("Too few arguments\n");
+    }
+
     srand(time(NULL));
 
     int n = atoi(argv[1]), min = atoi(argv[2]), max = atoi(argv[3]);

@@ -184,6 +184,10 @@ int multiply_matrices(int proc_in, int proc_count, int matrices_pair_count, cloc
 }
 
 int main(int argc, char** argv) {
+    if(argc < 7) {
+        printf("Too few arguments\n");
+    }
+
     char* tests_list = argv[1];
     int proc_count = atoi(argv[2]);
     time_limit = strtod(argv[3], NULL);
