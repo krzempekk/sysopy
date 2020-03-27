@@ -1,0 +1,4 @@
+Dziedziczenie ustawien sygnalow po wykonaniu funkcji fork:
+Ignorowanie, handlery i maskowanie sygnalow jest dziedziczone przez proces potomny. Natomiast syngal czekajacy w przodku nie jest widoczny w potomku.
+Dziedziczenie ustawień sygnałów po wykonaniu funkcji exec:
+Ignorowanie i maskowanie sygnalow rowniez jest dziedziczone. Ponadto sygnal czekajacy w przodku jest widoczny w potomku.
