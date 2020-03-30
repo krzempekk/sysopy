@@ -10,12 +10,14 @@
 void handle_child(int sig, siginfo_t* info, void* ucontext) {
     printf("Signal number %d\n", info->si_signo);
     printf("Sending PID %d\n", info->si_pid);
+    // kod wyjscia procesu dziecka (sygnal SIGCHLD)
     printf("Child exit code %d\n", info->si_status);
 }
 
 void handle_status(int sig, siginfo_t* info, void* ucontext) {
     printf("Signal number %d\n", info->si_signo);
     printf("Sending PID %d\n", info->si_pid);
+    // "powod" wyslania sygnalu
     if(info->si_code == SI_KERNEL) {
         printf("Send by kernel\n");
     } else if(info->si_code == SI_USER) {
@@ -26,10 +28,16 @@ void handle_status(int sig, siginfo_t* info, void* ucontext) {
 void handle_queue(int sig, siginfo_t* info, void* ucontext) {
     printf("Signal number %d\n", info->si_signo);
     printf("Sending PID %d\n", info->si_pid);
+    // wartosc wyslana z sygnalem
     printf("Signal value %d\n", info->si_value.sival_int);
 }
 
 int main(int argc, char** argv) {
+    if(argc < 2) {
+        printf("Not enough arguments\n");
+        return 1;
+    }
+
     struct sigaction act;
     sigemptyset(&act.sa_mask);
     act.sa_flags = SA_SIGINFO;

@@ -24,20 +24,31 @@ void sigusr2_handle_sigaction(int sig, siginfo_t* info, void* ucontext) {
 
 
 int main(int argc, char** argv) {
+    if(argc < 4) {
+        printf("Not enough arguments\n");
+        return 1;
+    }
+
     int pid = atoi(argv[1]);
     int sig_count = atoi(argv[2]);
 
     if(strcmp(argv[3], "kill") == 0) {
+
+        signal(SIGUSR1, sigusr1_handle);
+        signal(SIGUSR2, sigusr2_handle);
 
         for(int i = 0; i < sig_count; i++) {
             kill(pid, SIGUSR1);
         }
         kill(pid, SIGUSR2);
 
-        signal(SIGUSR1, sigusr1_handle);
-        signal(SIGUSR2, sigusr2_handle);
-
     } else if(strcmp(argv[3], "sigqueue") == 0) {
+
+        signal(SIGUSR1, sigusr1_handle);
+        struct sigaction act;
+        act.sa_flags = SA_SIGINFO;
+        act.sa_sigaction = sigusr2_handle_sigaction;
+        sigaction(SIGUSR2, &act, NULL);
 
         union sigval sval;
         for(int i = 0; i < sig_count; i++) {
@@ -47,21 +58,15 @@ int main(int argc, char** argv) {
         sval.sival_int = sig_count;
         sigqueue(pid, SIGUSR2, sval);
 
-        signal(SIGUSR1, sigusr1_handle);
-        struct sigaction act;
-        act.sa_flags = SA_SIGINFO;
-        act.sa_sigaction = sigusr2_handle_sigaction;
-        sigaction(SIGUSR2, &act, NULL);
-
     } else if(strcmp(argv[3], "sigrt") == 0) {
 
         for(int i = 0; i < sig_count; i++) {
             kill(pid, SIGRTMIN);
         }
-        kill(pid, SIGRTMIN+1);
+        kill(pid, SIGRTMAX);
 
         signal(SIGRTMIN, sigusr1_handle);
-        signal(SIGRTMIN+1, sigusr2_handle);
+        signal(SIGRTMAX, sigusr2_handle);
     }
 
     while(catching_signals) {

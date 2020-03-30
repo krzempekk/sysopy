@@ -11,11 +11,6 @@ int pid;
 
 void sigusr1_handle() {
     received_count++;
-    kill(pid, SIGUSR1);
-}
-
-void sigusr2_handle() {
-    catching_signals = false;
 }
 
 int main(int argc, char** argv) {
@@ -23,10 +18,10 @@ int main(int argc, char** argv) {
     int sig_count = atoi(argv[2]);
 
     signal(SIGUSR1, sigusr1_handle);
-    signal(SIGUSR2, sigusr2_handle);
 
-    kill(pid, SIGUSR1);
-    for(int i = 0; i < sig_count - 1; i++) {
+    for(int i = 0; i < sig_count; i++) {
+        usleep(1000);
+        kill(pid, SIGUSR1);
         pause();
     }
     kill(pid, SIGUSR2);

@@ -2,9 +2,9 @@ CC=gcc -Wall
 
 all: build
 
-build: main.c
+build: main.c prog.c
 	$(CC) -o main main.c
 	$(CC) -o prog prog.c
 
-clean: main
-	rm main
+clean: main prog
+	rm main prog

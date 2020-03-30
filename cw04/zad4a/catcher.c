@@ -7,22 +7,28 @@
 
 int sig_count = 0;
 bool catching_signals = true;
-int sender_pid;
+int sender_pid = 0;
 
-void sigusr1_handle() {
+void sigusr1_handle(int sig, siginfo_t* info, void* ucontext) {
     sig_count++;
+    if(!sender_pid)
+        sender_pid = info->si_pid;
 }
 
-void sigusr2_handle(int sig, siginfo_t* info, void* ucontext) {
-    sender_pid = info->si_pid;
+void sigusr2_handle() {
     catching_signals = false;
 }
 
 int main(int argc, char** argv) {
+    if(argc < 2) {
+        printf("Not enough arguments\n");
+        return 1;
+    }
+
     printf("Catcher PID: %d\n", getpid());
 
     if(strcmp(argv[1], "sigrt") == 0) {
-        signal(SIGRTMIN, sigusr1_handle);
+        signal(SIGRTMAX, sigusr2_handle);
 
 //        sigset_t mask;
 //        sigfillset(&mask);
@@ -32,10 +38,10 @@ int main(int argc, char** argv) {
 
         struct sigaction act;
         act.sa_flags = SA_SIGINFO;
-        act.sa_sigaction = sigusr2_handle;
-        sigaction(SIGRTMIN+1, &act, NULL);
+        act.sa_sigaction = sigusr1_handle;
+        sigaction(SIGRTMIN, &act, NULL);
     } else {
-        signal(SIGUSR1, sigusr1_handle);
+        signal(SIGUSR2, sigusr2_handle);
 
 //        sigset_t mask;
 //        sigfillset(&mask);
@@ -45,8 +51,8 @@ int main(int argc, char** argv) {
 
         struct sigaction act;
         act.sa_flags = SA_SIGINFO;
-        act.sa_sigaction = sigusr2_handle;
-        sigaction(SIGUSR2, &act, NULL);
+        act.sa_sigaction = sigusr1_handle;
+        sigaction(SIGUSR1, &act, NULL);
     }
 
 
@@ -74,7 +80,7 @@ int main(int argc, char** argv) {
         for(int i = 0; i < sig_count; i++) {
             kill(sender_pid, SIGRTMIN);
         }
-        kill(sender_pid, SIGRTMIN+1);
+        kill(sender_pid, SIGRTMAX);
     }
 
 

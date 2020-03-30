@@ -4,18 +4,18 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include <time.h>
 
 int sig_count = 0;
 bool catching_signals = true;
-int sender_pid;
+pid_t pid;
 
 void sigusr1_handle(int sig, siginfo_t* info, void* ucontext) {
     sig_count++;
-    kill(info->si_pid, SIGUSR1);
+    pid = info->si_pid;
 }
 
 void sigusr2_handle(int sig, siginfo_t* info, void* ucontext) {
-    sender_pid = info->si_pid;
     catching_signals = false;
 }
 
@@ -33,16 +33,11 @@ int main(int argc, char** argv) {
 
     while(catching_signals) {
         pause();
+        usleep(1000);
+        kill(pid, SIGUSR1);
     }
 
     printf("Catched signals: %d\n", sig_count);
-    printf("Sender PID: %d\n", sender_pid);
-//
-//    for(int i = 0; i < sig_count; i++) {
-//        kill(sender_pid, SIGUSR1);
-//    }
-//    kill(sender_pid, SIGUSR2);
-
 
     return 0;
 }
