@@ -8,7 +8,16 @@
 const int MAX_LEN = 100;
 const int MAX_MSG_LEN = 100;
 
+void error_exit(char* msg) {
+    printf("Error: %s\n", msg);
+    exit(EXIT_FAILURE);
+}
+
 int main(int argc, char** argv) {
+    if(argc < 4) {
+        error_exit("not enough arguments");
+    }
+
     srand(time(NULL));
 
     char* pipe_name = (char*)calloc(MAX_LEN, sizeof(char));

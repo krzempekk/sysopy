@@ -9,9 +9,18 @@ const int MAX_COMMANDS_IN_LINE = 10;
 const int MAX_ARGS = 10;
 const int MAX_ARG_LEN = 100;
 
-int main(int argc, char** argv) {
+void error_exit(char* msg) {
+    printf("Error: %s\n", msg);
+    exit(EXIT_FAILURE);
+}
 
-    FILE* f = fopen("commands", "r");
+
+int main(int argc, char** argv) {
+    if(argc < 2) {
+        error_exit("not enough arguments");
+    }
+
+    FILE* f = fopen(argv[1], "r");
 
     char* row = (char*)calloc(MAX_LINE_LEN, sizeof(char));
     while(fgets(row, MAX_LINE_LEN, f) != NULL) {

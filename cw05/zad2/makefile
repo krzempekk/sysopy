@@ -2,16 +2,11 @@ CC=gcc -Wall
 
 all: build test clean
 
-build: consumer.c producer.c main.c
-	$(CC) -o consumer consumer.c
-	$(CC) -o producer producer.c
+build: main.c
 	$(CC) -o main main.c
 
-test: consumer producer main
-	./main
+test: main file
+	./main file
 
 clean:
-	rm -f producer consumer main pipe
-
-clean_data:
-	rm -f input* output
+	rm -f main
