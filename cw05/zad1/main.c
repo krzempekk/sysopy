@@ -90,9 +90,6 @@ int main(int argc, char** argv) {
             waitpid(pids[j], NULL, 0);
         }
 
-//        char* buf = (char*)calloc(10000, sizeof(char));
-//        read(fd[0], buf, 10000);
-//        printf("command output: %s\n", buf);
         close(fd[1]);
         close(fd[0]);
 
