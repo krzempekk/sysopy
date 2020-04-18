@@ -2,18 +2,20 @@
 #include <stdlib.h>
 #include <sys/msg.h>
 #include <sys/ipc.h>
+#include <sys/stat.h>
 #include <errno.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include <string.h>
-#include <time.h>
 #include <signal.h>
+#include <mqueue.h>
+#include <time.h>
 
 #include "config.h"
 
-key_t queue_key;
-int queue_id;
-int server_queue_id;
+char* queue_name;
+
+mqd_t queue_desc;
+mqd_t server_queue_desc;
 int client_id;
 
 void error_exit(char* msg) {
@@ -23,149 +25,159 @@ void error_exit(char* msg) {
 }
 
 void stop_command() {
-    msg_buf* msg = (msg_buf*)malloc(sizeof(msg_buf));
-    msg->m_type = STOP;
-    msg->client_id = client_id;
+    char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
+    msg[0] = client_id;
 
-    if(msgsnd(server_queue_id, msg, MSG_SIZE, 0) < 0) error_exit("cannot send message");
-    if(msgctl(queue_id, IPC_RMID, NULL) < 0) error_exit("cannot delete queue");
-
-    msgctl(queue_id, IPC_RMID, NULL);
+    if(mq_send(server_queue_desc, msg, MAX_MSG_LEN, STOP) < 0) error_exit("cannot send message");
+    if(mq_close(server_queue_desc) < 0) error_exit("cannot close queue");
     exit(0);
 }
 
-void chat_mode(int other_id, int other_queue_id) {
-    char* cmd = NULL;
-    size_t len = 0;
-    ssize_t read = 0;
-    msg_buf* msg = (msg_buf*)malloc(sizeof(msg_buf));
-    while(true) {
-        printf("Enter message or DISCONNECT: ");
-        read = getline(&cmd, &len, stdin);
-        cmd[read - 1] = '\0';
-
-        if(msgrcv(queue_id, msg, MSG_SIZE, STOP, IPC_NOWAIT) >= 0) {
-            printf("STOP from server, quitting...\n");
-            stop_command();
-        }
-
-        if(msgrcv(queue_id, msg, MSG_SIZE, DISCONNECT, IPC_NOWAIT) >= 0) {
-            printf("Disconnecting...\n");
-            break;
-        }
-
-        while(msgrcv(queue_id, msg, MSG_SIZE, 0, IPC_NOWAIT) >= 0) {
-            printf("[%d]: %s\n", other_id, msg->m_text);
-        }
-
-        if(strcmp(cmd, "DISCONNECT") == 0) {
-            msg->m_type = DISCONNECT;
-            msg->client_id = client_id;
-            msg->connect_client_id = other_id;
-            if(msgsnd(server_queue_id, msg, MSG_SIZE, 0) < 0) error_exit("cannot send message");
-            break;
-        } else if(strcmp(cmd, "") != 0) {
-            msg->m_type = CONNECT;
-            strcpy(msg->m_text, cmd);
-            if(msgsnd(other_queue_id, msg, MSG_SIZE, 0) < 0) error_exit("cannot send message");
-        }
-    }
-}
-
-
-int init_connection() {
-    msg_buf* msg = (msg_buf*)malloc(sizeof(msg_buf));
-    msg->m_type = INIT;
-    msg->queue_key = queue_key;
-    if(msgsnd(server_queue_id, msg, MSG_SIZE, 0) < 0) error_exit("cannot send message");
-
-    msg_buf* msg_rcv = (msg_buf*)malloc(sizeof(msg_buf));
-    if(msgrcv(queue_id, msg_rcv, MSG_SIZE, 0, 0) < 0) error_exit("cannot receive message");
-
-    int client_id = msg_rcv->m_type;
-    return client_id;
-}
-
-void connect_command(int id) {
-    msg_buf* msg = (msg_buf*)malloc(sizeof(msg_buf));
-    msg->m_type = CONNECT;
-    msg->client_id = client_id;
-    msg->connect_client_id = id;
-
-    if(msgsnd(server_queue_id, msg, MSG_SIZE, 0) < 0) error_exit("cannot send message");
-
-    msg_buf* msg_rcv = (msg_buf*)malloc(sizeof(msg_buf));
-    if(msgrcv(queue_id, msg_rcv, MSG_SIZE, 0, 0) < 0) error_exit("cannot receive message");
-
-    key_t other_queue_key = msg_rcv->queue_key;
-    int other_queue_id = msgget(other_queue_key, 0);
-    if(other_queue_id < 0) error_exit("cannot access other client queue");
-
-    chat_mode(id, other_queue_id);
-}
-
-void list_command() {
-    msg_buf* msg = (msg_buf*)malloc(sizeof(msg_buf));
-    msg->m_type = LIST;
-    msg->client_id = client_id;
-    if(msgsnd(server_queue_id, msg, MSG_SIZE, 0) < 0) error_exit("cannot send message");
-
-    msg_buf* msg_rcv = (msg_buf*)malloc(sizeof(msg_buf));
-    if(msgrcv(queue_id, msg_rcv, MSG_SIZE, 0, 0) < 0) error_exit("cannot receive message");
-    printf("%s\n", msg_rcv->m_text);
-}
 
 void quit(int signum) {
     stop_command();
 }
 
-void check_server_message() {
-    msg_buf* msg = (msg_buf*)malloc(sizeof(msg_buf));
 
-    if(msgrcv(queue_id, msg, MSG_SIZE, 0, IPC_NOWAIT) >= 0) {
-        if(msg->m_type == STOP) {
-            printf("STOP from server, quitting...\n");
-            stop_command();
-        } else if(msg->m_type == CONNECT) {
-            printf("Connecting to client %d...\n", msg->client_id);
-            int other_queue_id = msgget(msg->queue_key, 0);
-            if(other_queue_id < 1) error_exit("cannot access other client queue");
-            chat_mode(msg->client_id, other_queue_id);
+void chat_mode(int other_id, mqd_t other_queue_desc) {
+    char* cmd = NULL;
+    size_t len = 0;
+    ssize_t read = 0;
+    char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
+    while(true) {
+        printf("Enter message or DISCONNECT: ");
+        read = getline(&cmd, &len, stdin);
+        cmd[read - 1] = '\0';
+
+        struct timespec* tspec = (struct timespec*)malloc(sizeof(struct timespec));
+        unsigned int type;
+        bool disconnect = false;
+        while(mq_timedreceive(queue_desc, msg, MAX_MSG_LEN, &type, tspec) >= 0) {
+            if(type == STOP) {
+                printf("STOP from server, quitting...\n");
+                stop_command();
+            } else if(type == DISCONNECT) {
+                printf("Disconnecting...\n");
+                disconnect = true;
+                break;
+            } else {
+                printf("[%d]: %s\n", other_id, msg);
+            }
+        }
+
+        if(disconnect) break;
+
+        if(strcmp(cmd, "DISCONNECT") == 0) {
+            msg[0] = client_id;
+            msg[1] = other_id;
+            if(mq_send(server_queue_desc, msg, MAX_MSG_LEN, DISCONNECT) < 0) error_exit("cannot send message");
+            break;
+        } else if(strcmp(cmd, "") != 0) {
+            strcpy(msg, cmd);
+            if(mq_send(other_queue_desc, msg, MAX_MSG_LEN, CONNECT) < 0) error_exit("cannot send message");
         }
     }
 }
 
 
-int random_number() {
-    return rand() % 255 + 1;
+char random_char() {
+    return rand() % ('Z' - 'A' + 1) + 'A';
 }
 
-int main() {
-    srand(time(NULL));
+void generate_name() {
+    queue_name = (char*)calloc(NAME_LEN, sizeof(char));
+    queue_name[0] = '/';
+    for(int i = 1; i < NAME_LEN - 1; i++) queue_name[i] = random_char();
+    queue_name[NAME_LEN - 1] = '\0';
 
-    queue_key = ftok(getenv("HOME"), random_number());
-    printf("Queue key: %d\n", queue_key);
+    printf("%s\n", queue_name);
+}
 
-    // przy tworzeniu trzeba ustawic dostep
-    queue_id = msgget(queue_key, IPC_CREAT | 0666);
-    if(queue_id < 0) error_exit("cannot create queue");
-    printf("Queue ID: %d\n", queue_id);
+int init_connection() {
+    char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
+    strcpy(msg, queue_name);
 
-    key_t server_key = ftok(getenv("HOME"), SERVER_PROJ_ID);
-    server_queue_id = msgget(server_key, 0);
-    if(server_queue_id < 0) error_exit("cannot access server queue");
-    printf("Server queue ID: %d\n", server_queue_id);
+    if(mq_send(server_queue_desc, msg, MAX_MSG_LEN, INIT) < 0) error_exit("cannot send message");
+
+    unsigned int client_id;
+    if(mq_receive(queue_desc, msg, MAX_MSG_LEN, &client_id) < 0) error_exit("cannot receive message");
+    printf("ID received %d\n", client_id);
+
+    return client_id;
+}
+
+void list_command() {
+    char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
+    msg[0] = client_id;
+
+    if(mq_send(server_queue_desc, msg, MAX_MSG_LEN, LIST) < 0) error_exit("cannot send message");
+
+    if(mq_receive(queue_desc, msg, MAX_MSG_LEN, NULL) < 0) error_exit("cannot receive message");
+
+    printf("%s\n", msg);
+}
+
+void connect_command(int id) {
+    char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
+    msg[0] = client_id;
+    msg[1] = id;
+
+    if(mq_send(server_queue_desc, msg, MAX_MSG_LEN, CONNECT) < 0) error_exit("cannot send message");
+
+    if(mq_receive(queue_desc, msg, MAX_MSG_LEN, NULL) < 0) error_exit("cannot receive message");
+
+    char* other_queue_name = (char*)calloc(NAME_LEN, sizeof(char));
+    strncpy(other_queue_name, msg + 1, strlen(msg) - 1);
+    printf("other name %s\n", other_queue_name);
+    mqd_t other_queue_desc = mq_open(other_queue_name, O_RDWR);
+    if(other_queue_desc < 0) error_exit("cannot access other client queue");
+
+    chat_mode(id, other_queue_desc);
+}
+
+
+void check_server_message() {
+    char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
+
+    struct timespec* tspec = (struct timespec*)malloc(sizeof(struct timespec));
+    unsigned int type;
+    if(mq_timedreceive(queue_desc, msg, MAX_MSG_LEN, &type, tspec) >= 0) {
+        if(type == STOP) {
+            printf("STOP from server, quitting...\n");
+            stop_command();
+        } else if(type == CONNECT) {
+            printf("Connecting to client...\n");
+
+            char* other_queue_name = (char*)calloc(NAME_LEN, sizeof(char));
+            strncpy(other_queue_name, msg + 1, strlen(msg) - 1);
+            printf("other name %s\n", other_queue_name);
+            mqd_t other_queue_desc = mq_open(other_queue_name, O_RDWR);
+            if(other_queue_desc < 0) error_exit("cannot access other client queue");
+
+            chat_mode((int) msg[0], other_queue_desc);
+        }
+    }
+}
+
+
+int main(int argc, char** argv) {
+    queue_name = argv[1];
+
+    queue_desc = mq_open(queue_name, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
+    if(queue_desc < 0) error_exit("cannot create queue");
+
+    server_queue_desc = mq_open(SERVER_QUEUE_NAME, O_RDWR);
+    if(server_queue_desc < 0) error_exit("cannot access server queue");
 
     client_id = init_connection();
-    printf("ID received: %d\n", client_id);
 
     signal(SIGINT, quit);
 
-    char* cmd = NULL;
-    size_t len = 0;
-    ssize_t read = 0;
     while(true) {
         printf("Enter command: ");
+        char* cmd = NULL;
+        size_t len = 0;
+        ssize_t read = 0;
         read = getline(&cmd, &len, stdin);
         cmd[read - 1] = '\0';
 
@@ -189,6 +201,7 @@ int main() {
         } else {
             printf("Unrecognized command: %s\n", cmd);
         }
+
     }
 
     return 0;

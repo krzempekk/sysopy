@@ -33,7 +33,7 @@ void process_message(msg_buf* msg) {
     int other_client_id;
 
     switch(msg->m_type) {
-        case INIT: ; // XDDDDDDD
+        case INIT: ;
             printf("INIT received\n");
             int id = next_client_id();
             if(id < 0) return;

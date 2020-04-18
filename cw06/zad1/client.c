@@ -146,7 +146,6 @@ int main() {
     queue_key = ftok(getenv("HOME"), random_number());
     printf("Queue key: %d\n", queue_key);
 
-    // przy tworzeniu trzeba ustawic dostep
     queue_id = msgget(queue_key, IPC_CREAT | 0666);
     if(queue_id < 0) error_exit("cannot create queue");
     printf("Queue ID: %d\n", queue_id);
