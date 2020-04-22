@@ -141,6 +141,8 @@ int main() {
     char* msg = (char*)calloc(MAX_MSG_LEN, sizeof(char));
     unsigned int prio;
 
+    printf("Server started\n");
+
     while(true) {
         if(mq_receive(server_q, msg, MAX_MSG_LEN, &prio) < 0) error_exit("cannot receive message");
         process_message(msg, prio);

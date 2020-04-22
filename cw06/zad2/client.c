@@ -12,7 +12,7 @@
 
 #include "config.h"
 
-char* queue_name;
+char queue_name[NAME_LEN];
 
 mqd_t queue_desc;
 mqd_t server_queue_desc;
@@ -85,12 +85,8 @@ char random_char() {
 }
 
 void generate_name() {
-    queue_name = (char*)calloc(NAME_LEN, sizeof(char));
     queue_name[0] = '/';
-    for(int i = 1; i < NAME_LEN - 1; i++) queue_name[i] = random_char();
-    queue_name[NAME_LEN - 1] = '\0';
-
-    printf("%s\n", queue_name);
+    for(int i = 1; i < NAME_LEN; i++) queue_name[i] = random_char();
 }
 
 int init_connection() {
@@ -161,9 +157,10 @@ void check_server_message() {
 
 
 int main(int argc, char** argv) {
-    queue_name = argv[1];
-
-    queue_desc = mq_open(queue_name, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
+    srand(time(NULL));
+    generate_name();
+    printf("Queue name %s\n", queue_name);
+    queue_desc = mq_open(queue_name, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, NULL);
     if(queue_desc < 0) error_exit("cannot create queue");
 
     server_queue_desc = mq_open(SERVER_QUEUE_NAME, O_RDWR);
