@@ -10,7 +10,7 @@
 #include <errno.h>
 #include <time.h>
 
-#include "../zad2/config.h"
+#include "config.h"
 
 const int MIN_VAL = 1;
 const int MAX_VAL = 100;

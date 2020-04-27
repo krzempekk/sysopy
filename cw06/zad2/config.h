@@ -9,6 +9,6 @@ typedef enum m_type {
 } m_type;
 
 const char* SERVER_QUEUE_NAME = "/SERVER";
-const int MAX_MSG_LEN = 8192;
+const int MAX_MSG_LEN = 32768;
 
 #endif //CONFIG_H

@@ -134,7 +134,11 @@ void process_message(char* msg, int prio) {
 int main() {
     for(int i = 0; i < MAX_CLIENTS; i++) { clients_queues[i] = NULL; }
 
-    server_q = mq_open(SERVER_QUEUE_NAME, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
+    struct mq_attr attr;
+    attr.mq_maxmsg = 1000;
+    attr.mq_msgsize = MAX_MSG_LEN;
+
+    server_q = mq_open(SERVER_QUEUE_NAME, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, attr);
     if(server_q < 0) error_exit("cannot create queue");
 
     signal(SIGINT, quit);
