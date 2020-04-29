@@ -1,10 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define MAX_ORDERS 5
-#define W_1_COUNT 3
-#define W_2_COUNT 3
-#define W_3_COUNT 3
+#define MAX_ORDERS 50
+#define W_1_COUNT 100
+#define W_2_COUNT 5
+#define W_3_COUNT 100
 
 const int MIN_SLEEP = 100;
 const int MAX_SLEEP = 1000;

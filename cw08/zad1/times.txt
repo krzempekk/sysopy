@@ -1,0 +1,77 @@
+Obliczenia zostały wykonane dla obrazu z pliku roi_14.ascii.pgm o rozmiarze 507 x 505 pixeli. Wyniki:
+1 wątek
+    sign
+        Thread 1 time [us]: 14970000
+        Full time [us]: 17700000
+    block
+        Thread 1 time [us]: 13430000
+        Full time [us]: 15720000
+    interleaved
+        Thread 1 time [us]: 16080000
+        Full time [us]: 18940000
+
+2 wątki
+    sign
+        Thread 1 time [us]: 37700000
+        Thread 2 time [us]: 14260000
+        Full time [us]: 38620000
+    block
+        Thread 1 time [us]: 16540000
+        Thread 2 time [us]: 8160000
+        Full time [us]: 20330000
+    interleaved
+        Thread 1 time [us]: 15060000
+        Thread 2 time [us]: 6260000
+        Full time [us]: 16770000
+
+4 wątki
+    sign
+        Thread 1 time [us]: 56690000
+        Thread 2 time [us]: 12300000
+        Thread 3 time [us]: 27350000
+        Thread 4 time [us]: 20520000
+        Full time [us]: 57820000
+    block
+        Thread 1 time [us]: 9090000
+        Thread 2 time [us]: 5050000
+        Thread 3 time [us]: 12360000
+        Thread 4 time [us]: 15790000
+        Full time [us]: 24820000
+    interleaved
+        Thread 1 time [us]: 5750000
+        Thread 2 time [us]: 8810000
+        Thread 3 time [us]: 12470000
+        Thread 4 time [us]: 16170000
+        Full time [us]: 22750000
+
+8 wątków
+    sign
+        Thread 1 time [us]: 104460000
+        Thread 2 time [us]: 13360000
+        Thread 3 time [us]: 24980000
+        Thread 4 time [us]: 46920000
+        Thread 5 time [us]: 61470000
+        Thread 6 time [us]: 42230000
+        Thread 7 time [us]: 33270000
+        Thread 8 time [us]: 35190000
+        Full time [us]: 111100000
+    block
+        Thread 1 time [us]: 6340000
+        Thread 2 time [us]: 5210000
+        Thread 3 time [us]: 7180000
+        Thread 4 time [us]: 6960000
+        Thread 5 time [us]: 6920000
+        Thread 6 time [us]: 8520000
+        Thread 7 time [us]: 6970000
+        Thread 8 time [us]: 8230000
+        Full time [us]: 29040000
+    interleaved
+        Thread 1 time [us]: 5010000
+        Thread 2 time [us]: 6620000
+        Thread 3 time [us]: 8480000
+        Thread 4 time [us]: 5770000
+        Thread 5 time [us]: 7740000
+        Thread 6 time [us]: 11720000
+        Thread 7 time [us]: 7820000
+        Thread 8 time [us]: 8390000
+        Full time [us]: 26530000

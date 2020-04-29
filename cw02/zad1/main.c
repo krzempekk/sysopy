@@ -8,7 +8,7 @@
 #include <sys/times.h>
 
 double time_diff(clock_t t1, clock_t t2){
-    return ((double)(t2 - t1) / sysconf(_SC_CLK_TCK));
+    return (1e6 * (double)(t2 - t1) / sysconf(_SC_CLK_TCK));
 }
 
 void write_result(struct tms* t_start, struct tms* t_end){
