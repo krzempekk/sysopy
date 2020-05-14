@@ -28,7 +28,7 @@
 
 typedef struct pollfd pollfd;
 
-// message format: TYPE:data:user
+// message format: TYPE:data or TYPE:data:user if client is sending to server
 
 typedef enum MSG_TYPE {
     LOGIN_REQUEST, // TYPE:client_name

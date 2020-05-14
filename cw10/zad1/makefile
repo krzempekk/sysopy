@@ -7,7 +7,7 @@ build: client.c server.c
 	$(CC) -o server server.c common.c -lpthread
 
 test: client server
-	./server
+	./server 6666 sock
 
 clean:
 	rm -f client server sock
