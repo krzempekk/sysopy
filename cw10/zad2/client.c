@@ -10,26 +10,37 @@ int server_sock_fd;
 pthread_t input_thread;
 char input[2];
 
+struct sockaddr_un server_sock;
+
 void open_connection() {
     if(is_local_connection) {
-        struct sockaddr_un server_sock;
+//        struct sockaddr_un server_sock;
 
         server_sock.sun_family = AF_UNIX;
         strcpy(server_sock.sun_path, server_address);
 
-        if((server_sock_fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) error_exit("socket");
+        if((server_sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0)) < 0) error_exit("socket");
+
+        int optval = 1;
+        if(setsockopt(server_sock_fd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1) error_exit("setsockopt");
+
+//        struct sockaddr_un client_sock;
+//        client_sock.sun_family = AF_UNIX;
+//        strcpy(client_sock.sun_path, "\0KURWAAAAAAAA");
+
+//        if(bind(server_sock_fd, (struct sockaddr*) &client_sock, sizeof(sa_family_t)) < 0) error_exit("bind");
 
         if(connect(server_sock_fd, (struct sockaddr*) &server_sock, sizeof(server_sock)) < 0) error_exit("connect");
     } else {
-        struct sockaddr_in server_sock;
-
-        server_sock.sin_family = AF_INET;
-        server_sock.sin_port = htons(port_number);
-        server_sock.sin_addr.s_addr = inet_addr(server_address);
-
-        if((server_sock_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) error_exit("socket");
-
-        if(connect(server_sock_fd, (struct sockaddr*) &server_sock, sizeof(server_sock)) < 0) error_exit("connect");
+//        server_sock.sin_family = AF_INET;
+//        server_sock.sin_port = htons(port_number);
+//        server_sock.sin_addr.s_addr = inet_addr(server_address);
+//
+//        if((server_sock_fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) error_exit("socket");
+//
+////        if(bind(server_sock_fd, (struct sockaddr*) &server_sock, sizeof(server_sock)) < 0) error_exit("bind");
+//
+//        if(connect(server_sock_fd, (struct sockaddr*) &server_sock, sizeof(server_sock)) < 0) error_exit("connect");
     }
 }
 
@@ -71,62 +82,68 @@ int main(int argc, char** argv) {
 
     if(msg->type == LOGIN_APPROVED) {
         printf("Registered\n");
-
-        while(1) {
-            msg = read_message(server_sock_fd);
-
-            if(msg->type == GAME_WAITING) {
-                printf("Waiting for game...\n");
-            } else if(msg->type == GAME_FOUND) {
-                printf("Found game. Received sign %s\n", msg->data);
-
-                if(msg->data[0] == 'X') {
-                    printf("Making move 0\n");
-                    send_message(server_sock_fd, GAME_MOVE, "0");
-                }
-
-                while(1) {
-                    msg = read_message(server_sock_fd);
-
-                    if(msg->type == GAME_MOVE) {
-                        printf("Opponent made move. Current board:\n");
-                        printf("%s", msg->data);
-
-                        input[0] = '.';
-                        if(pthread_create(&input_thread, NULL, process_input, NULL) < 0) error_exit("pthread_create");
-                        while(input[0] == '.') {
-                            msg = read_message_nonblocking(server_sock_fd);
-                            if(msg != NULL) {
-                                if(msg->type == PING) {
-                                    printf("Received PING\n");
-                                    send_message(server_sock_fd, PING, NULL);
-                                }
-                            }
-                        }
-
-                        printf("Making move %s\n", input);
-                        send_message(server_sock_fd, GAME_MOVE, input);
-                    } else if(msg->type == GAME_FINISHED) {
-                        printf("Game finished, message: %s\n", msg->data);
-                        send_message(server_sock_fd, LOGOUT, NULL);
-                        printf("Logged out from server\n");
-                        break;
-                    } else if(msg->type == PING) {
-                        printf("Received PING\n");
-                        send_message(server_sock_fd, PING, NULL);
-                    }
-                }
-
-                break;
-            } else if(msg->type == PING) {
-                printf("Received PING\n");
-                send_message(server_sock_fd, PING, NULL);
-            }
-        }
-
-    } else {
-        printf("Server rejected login. Reason: %s\n", msg->data);
     }
+
+//    message* msg = read_message(server_sock_fd);
+
+//    if(msg->type == LOGIN_APPROVED) {
+//        printf("Registered\n");
+//
+//        while(1) {
+//            msg = read_message(server_sock_fd);
+//
+//            if(msg->type == GAME_WAITING) {
+//                printf("Waiting for game...\n");
+//            } else if(msg->type == GAME_FOUND) {
+//                printf("Found game. Received sign %s\n", msg->data);
+//
+//                if(msg->data[0] == 'X') {
+//                    printf("Making move 0\n");
+//                    send_message(server_sock_fd, GAME_MOVE, "0");
+//                }
+//
+//                while(1) {
+//                    msg = read_message(server_sock_fd);
+//
+//                    if(msg->type == GAME_MOVE) {
+//                        printf("Opponent made move. Current board:\n");
+//                        printf("%s", msg->data);
+//
+//                        input[0] = '.';
+//                        if(pthread_create(&input_thread, NULL, process_input, NULL) < 0) error_exit("pthread_create");
+//                        while(input[0] == '.') {
+//                            msg = read_message_nonblocking(server_sock_fd);
+//                            if(msg != NULL) {
+//                                if(msg->type == PING) {
+//                                    printf("Received PING\n");
+//                                    send_message(server_sock_fd, PING, NULL);
+//                                }
+//                            }
+//                        }
+//
+//                        printf("Making move %s\n", input);
+//                        send_message(server_sock_fd, GAME_MOVE, input);
+//                    } else if(msg->type == GAME_FINISHED) {
+//                        printf("Game finished, message: %s\n", msg->data);
+//                        send_message(server_sock_fd, LOGOUT, NULL);
+//                        printf("Logged out from server\n");
+//                        break;
+//                    } else if(msg->type == PING) {
+//                        printf("Received PING\n");
+//                        send_message(server_sock_fd, PING, NULL);
+//                    }
+//                }
+//
+//                break;
+//            } else if(msg->type == PING) {
+//                printf("Received PING\n");
+//                send_message(server_sock_fd, PING, NULL);
+//            }
+//        }
+//
+//    } else {
+//        printf("Server rejected login. Reason: %s\n", msg->data);
+//    }
 
     close_connection();
 

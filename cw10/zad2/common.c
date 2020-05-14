@@ -30,6 +30,16 @@ message* read_message(int sock_fd) {
     return msg;
 }
 
+message* read_message_from(int sock_fd, struct sockaddr* addr, socklen_t* addrlen) {
+    message* msg = (message*) malloc(sizeof(message));
+    char* msg_raw = (char*) calloc(MAX_MSG_LEN, sizeof(char));
+    if(recvfrom(sock_fd, (void*) msg_raw, MAX_MSG_LEN, 0, addr, addrlen) < 0) error_exit("recvfrom");
+    msg->type = get_message_type(msg_raw);
+    strcpy(msg->data, get_message_data(msg_raw));
+    free(msg_raw);
+    return msg;
+}
+
 message* read_message_nonblocking(int sock_fd) {
     message* msg = (message*) malloc(sizeof(message));
     char* msg_raw = (char*) calloc(MAX_MSG_LEN, sizeof(char));
@@ -47,9 +57,16 @@ void send_message(int sock_fd, MSG_TYPE type, char* content) {
     free(msg_raw);
 }
 
-client* create_client(int fd, char* name) {
+void send_message_to(int sock_fd, MSG_TYPE type, char* content, struct sockaddr* addr, socklen_t addrlen) {
+    char* msg_raw = (char*) calloc(MAX_MSG_LEN, sizeof(char));
+    sprintf(msg_raw, "%d:%s", (int) type, content);
+    if(sendto(sock_fd, (void*) msg_raw, MAX_MSG_LEN, 0, addr, addrlen) < 0) error_exit("sendto");
+    free(msg_raw);
+}
+
+client* create_client(struct sockaddr* addr, char* name) {
     client* cl = (client*) malloc(sizeof(client));
-    cl->fd = fd;
+    cl->addr = addr;
     strcpy(cl->name, name);
     return cl;
 }

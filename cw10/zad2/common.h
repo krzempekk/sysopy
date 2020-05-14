@@ -48,20 +48,24 @@ typedef struct message {
 } message;
 
 typedef struct client {
-    int fd;
     char name[MAX_MSG_LEN];
     int responding;
+    struct sockaddr* addr;
 } client;
 
 void error_exit(char* msg);
 
 message* read_message(int sock_fd);
 
+message* read_message_from(int sock_fd, struct sockaddr* addr, socklen_t* addrlen);
+
 message* read_message_nonblocking(int sock_fd);
 
 void send_message(int sock_fd, MSG_TYPE type, char* content);
 
-client* create_client(int fd, char* name);
+void send_message_to(int sock_fd, MSG_TYPE type, char* content, struct sockaddr* addr, socklen_t addrlen);
+
+client* create_client(struct sockaddr* addr, char* name);
 
 typedef enum FIELD {
     O = 0,
