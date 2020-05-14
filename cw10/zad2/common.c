@@ -16,8 +16,16 @@ enum MSG_TYPE get_message_type(char* message) {
 char* get_message_data(char* message) {
     int tmp;
     char* content = (char*) calloc(MAX_MSG_LEN - 1, sizeof(char));
-    sscanf(message, "%d:%[^0]", &tmp, content);
+    sscanf(message, "%d:%[^:]", &tmp, content);
     return content;
+}
+
+char* get_message_user(char* message) {
+    int tmp;
+    char* content = (char*) calloc(MAX_MSG_LEN - 1, sizeof(char));
+    char* user = (char*) calloc(MAX_MSG_LEN - 1, sizeof(char));
+    sscanf(message, "%d:%[^:]:%[^:]", &tmp, content, user);
+    return user;
 }
 
 message* read_message(int sock_fd) {
@@ -36,6 +44,7 @@ message* read_message_from(int sock_fd, struct sockaddr* addr, socklen_t* addrle
     if(recvfrom(sock_fd, (void*) msg_raw, MAX_MSG_LEN, 0, addr, addrlen) < 0) error_exit("recvfrom");
     msg->type = get_message_type(msg_raw);
     strcpy(msg->data, get_message_data(msg_raw));
+    strcpy(msg->user, get_message_user(msg_raw));
     free(msg_raw);
     return msg;
 }
@@ -50,23 +59,25 @@ message* read_message_nonblocking(int sock_fd) {
     return msg;
 }
 
-void send_message(int sock_fd, MSG_TYPE type, char* content) {
+void send_message(int sock_fd, MSG_TYPE type, char* content, char* user) {
     char* msg_raw = (char*) calloc(MAX_MSG_LEN, sizeof(char));
-    sprintf(msg_raw, "%d:%s", (int) type, content);
+    sprintf(msg_raw, "%d:%s:%s", (int) type, content, user);
     if(write(sock_fd, (void*) msg_raw, MAX_MSG_LEN) < 0) error_exit("write");
     free(msg_raw);
 }
 
-void send_message_to(int sock_fd, MSG_TYPE type, char* content, struct sockaddr* addr, socklen_t addrlen) {
+void send_message_to(int sock_fd, MSG_TYPE type, char* content, struct sockaddr* addr) {
     char* msg_raw = (char*) calloc(MAX_MSG_LEN, sizeof(char));
     sprintf(msg_raw, "%d:%s", (int) type, content);
-    if(sendto(sock_fd, (void*) msg_raw, MAX_MSG_LEN, 0, addr, addrlen) < 0) error_exit("sendto");
+    if(sendto(sock_fd, (void*) msg_raw, MAX_MSG_LEN, 0, addr, sizeof(struct sockaddr)) < 0) error_exit("sendto");
     free(msg_raw);
 }
 
-client* create_client(struct sockaddr* addr, char* name) {
+client* create_client(int fd, struct sockaddr* addr, char* name) {
     client* cl = (client*) malloc(sizeof(client));
     cl->addr = addr;
+    cl->fd = fd;
+    cl->responding = 1;
     strcpy(cl->name, name);
     return cl;
 }

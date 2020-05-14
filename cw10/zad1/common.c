@@ -16,7 +16,7 @@ enum MSG_TYPE get_message_type(char* message) {
 char* get_message_data(char* message) {
     int tmp;
     char* content = (char*) calloc(MAX_MSG_LEN - 1, sizeof(char));
-    sscanf(message, "%d:%[^0]", &tmp, content);
+    sscanf(message, "%d:%[^:]", &tmp, content);
     return content;
 }
 
@@ -50,6 +50,7 @@ void send_message(int sock_fd, MSG_TYPE type, char* content) {
 client* create_client(int fd, char* name) {
     client* cl = (client*) malloc(sizeof(client));
     cl->fd = fd;
+    cl->responding = 1;
     strcpy(cl->name, name);
     return cl;
 }

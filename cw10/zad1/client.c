@@ -48,6 +48,21 @@ void* process_input() {
     pthread_exit((void *) 0);
 }
 
+void read_input() {
+    input[0] = '.';
+    if(pthread_create(&input_thread, NULL, process_input, NULL) < 0) error_exit("pthread_create");
+    message* msg;
+    while(input[0] == '.') {
+        msg = read_message_nonblocking(server_sock_fd);
+        if(msg != NULL) {
+            if(msg->type == PING) {
+                printf("Received PING\n");
+                send_message(server_sock_fd, PING, NULL);
+            }
+        }
+    }
+}
+
 int main(int argc, char** argv) {
     if(argc < 2) error_exit("too few arguments");
 
@@ -81,8 +96,9 @@ int main(int argc, char** argv) {
                 printf("Found game. Received sign %s\n", msg->data);
 
                 if(msg->data[0] == 'X') {
-                    printf("Making move 0\n");
-                    send_message(server_sock_fd, GAME_MOVE, "0");
+                    read_input();
+                    printf("Making move %s\n", input);
+                    send_message(server_sock_fd, GAME_MOVE, input);
                 }
 
                 while(1) {
@@ -91,19 +107,7 @@ int main(int argc, char** argv) {
                     if(msg->type == GAME_MOVE) {
                         printf("Opponent made move. Current board:\n");
                         printf("%s", msg->data);
-
-                        input[0] = '.';
-                        if(pthread_create(&input_thread, NULL, process_input, NULL) < 0) error_exit("pthread_create");
-                        while(input[0] == '.') {
-                            msg = read_message_nonblocking(server_sock_fd);
-                            if(msg != NULL) {
-                                if(msg->type == PING) {
-                                    printf("Received PING\n");
-                                    send_message(server_sock_fd, PING, NULL);
-                                }
-                            }
-                        }
-
+                        read_input();
                         printf("Making move %s\n", input);
                         send_message(server_sock_fd, GAME_MOVE, input);
                     } else if(msg->type == GAME_FINISHED) {

@@ -68,6 +68,8 @@ void stop_server() {
     if(shutdown(sock_in_fd, SHUT_RDWR) < 0) error_exit("shutdown");
 
     if(close(sock_in_fd) < 0) error_exit("close");
+
+    exit(0);
 }
 
 void close_connection(int fd) {

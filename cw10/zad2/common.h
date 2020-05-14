@@ -21,14 +21,14 @@
 #define _BSD_SOURCE
 
 #define MAX_CLIENTS 10
-#define MAX_MSG_LEN 16
+#define MAX_MSG_LEN 32
 
 #define PING_INTERVAL 10
 #define PING_TIMEOUT 5
 
 typedef struct pollfd pollfd;
 
-// message format: TYPE:data
+// message format: TYPE:data:user
 
 typedef enum MSG_TYPE {
     LOGIN_REQUEST, // TYPE:client_name
@@ -44,10 +44,12 @@ typedef enum MSG_TYPE {
 
 typedef struct message {
     MSG_TYPE type;
-    char data[MAX_MSG_LEN - 1];
+    char data[MAX_MSG_LEN / 2];
+    char user[MAX_MSG_LEN / 2];
 } message;
 
 typedef struct client {
+    int fd;
     char name[MAX_MSG_LEN];
     int responding;
     struct sockaddr* addr;
@@ -61,11 +63,11 @@ message* read_message_from(int sock_fd, struct sockaddr* addr, socklen_t* addrle
 
 message* read_message_nonblocking(int sock_fd);
 
-void send_message(int sock_fd, MSG_TYPE type, char* content);
+void send_message(int sock_fd, MSG_TYPE type, char* content, char* user);
 
-void send_message_to(int sock_fd, MSG_TYPE type, char* content, struct sockaddr* addr, socklen_t addrlen);
+void send_message_to(int sock_fd, MSG_TYPE type, char* content, struct sockaddr* addr);
 
-client* create_client(struct sockaddr* addr, char* name);
+client* create_client(int fd, struct sockaddr* addr, char* name);
 
 typedef enum FIELD {
     O = 0,
